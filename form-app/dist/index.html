@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#07989b">
+  <meta name="description" content="تعبئة وحفظ وطباعة استمارة الزيارة الفنية لمديري ومديرات المدارس">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="styles.css">
+  <title>استمارة الزيارة الفنية</title>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <img src="assets/ministry-logo.jpeg" alt="وزارة التعليم">
+        <div>
+          <h1>استمارة الزيارة الفنية</h1>
+          <p>تقييم أداء مدير/ة المدرسة</p>
+        </div>
+      </div>
+      <button class="icon-button" id="backupButton" type="button" aria-label="النسخ الاحتياطي">⋮</button>
+    </header>
+
+    <main id="app" tabindex="-1">
+      <section class="dashboard" aria-labelledby="dashboardTitle">
+        <div class="dashboard-heading">
+          <div>
+            <span class="eyebrow">السجلات المحفوظة على هذا الجهاز</span>
+            <h2 id="dashboardTitle">الزيارات الفنية</h2>
+          </div>
+          <button class="primary-button" id="newRecordButton" type="button">
+            <span aria-hidden="true">＋</span> استمارة جديدة
+          </button>
+        </div>
+
+        <label class="search-field">
+          <span class="sr-only">البحث باسم المدرسة</span>
+          <span aria-hidden="true">⌕</span>
+          <input id="recordSearch" type="search" placeholder="ابحث باسم المدرسة أو الرقم الوزاري">
+        </label>
+
+        <div class="summary-strip" role="group" aria-label="ملخص السجلات">
+          <div><strong id="recordCount">0</strong><span>سجل محفوظ</span></div>
+          <div><strong id="completeCount">0</strong><span>مكتمل</span></div>
+          <div><strong id="draftCount">0</strong><span>قيد الإكمال</span></div>
+        </div>
+
+        <div id="recordList" class="record-list"></div>
+      </section>
+    </main>
+
+    <div class="bottom-safe-area" aria-hidden="true"></div>
+  </div>
+
+  <template id="emptyStateTemplate">
+    <section class="empty-state">
+      <div class="empty-mark" aria-hidden="true">＋</div>
+      <h3>ابدأ أول زيارة فنية</h3>
+      <p>أدخل بيانات المدرسة مرة واحدة، ثم أكمل مراحل الزيارة واحفظها واطبعها من الجوال.</p>
+      <button class="primary-button wide" type="button" data-action="new-record">إنشاء استمارة</button>
+    </section>
+  </template>
+
+  <script src="criteria-data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
