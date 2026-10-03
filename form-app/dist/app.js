@@ -522,78 +522,107 @@
 
   function generalOverlays(record) {
     let html = "";
-    html += overlay(record.schoolName, 4, 19.2, 65.5);
-    html += overlay(record.ministryNumber, 4, 22.1, 65.5);
-    html += overlay(record.email, 4, 24.8, 65.5);
-    const stageX = { "طفولة مبكرة": 64.5, "الابتدائية": 52, "المتوسطة": 35.5, "الثانوية": 13.5 };
-    const genderX = { "بنين": 64.8, "بنات": 35.5 };
-    const typeX = { "نهاري": 64.5, "تحفيظ": 35.5, "أخرى": 13.5 };
-    const independenceX = { "مستقل": 64.5, "مشترك (المبنى)": 35.5, "مشترك (الإدارة)": 35.5 };
-    if (stageX[record.stage]) html += check(stageX[record.stage], 28.15);
-    if (genderX[record.gender]) html += check(genderX[record.gender], 31.15);
-    if (typeX[record.schoolType]) html += check(typeX[record.schoolType], 34.0);
-    if (independenceX[record.independence]) html += check(independenceX[record.independence], 36.8);
-    html += overlay(record.directorName, 57.3, 42.2, 12);
-    html += overlay(record.jobTitle, 38.8, 42.2, 6.5);
-    html += overlay(record.mobile, 28, 40.7, 6.5);
-    html += overlay(record.civilId, 28, 44.4, 6.5);
-    html += overlay(record.directorExperience, 16, 42.2, 5.2);
-    html += overlay(record.currentSchoolExperience, 3.8, 42.2, 5.2);
-    html += overlay(record.performance1446, 57.3, 47.5, 12);
-    html += overlay(record.performance1447, 21.2, 47.5, 24);
-    const visitX = { planning: 57.4, midyear: 35.4, evaluation: 12.3 };
+    html += overlay(record.schoolName, 4.23, 22.06, 73.35);
+    html += overlay(record.ministryNumber, 4.23, 25.08, 73.35);
+    html += overlay(record.email, 4.23, 28.11, 73.35, "masked-overlay");
+    const stageX = { "طفولة مبكرة": 72.61, "الابتدائية": 59.41, "المتوسطة": 39.74, "الثانوية": 15.61 };
+    const genderX = { "بنين": 72.61, "بنات": 39.74 };
+    const typeX = { "نهاري": 72.61, "تحفيظ": 39.74, "أخرى": 15.51 };
+    if (stageX[record.stage]) html += check(stageX[record.stage], 31.80);
+    if (genderX[record.gender]) html += check(genderX[record.gender], 35.16);
+    if (typeX[record.schoolType]) html += check(typeX[record.schoolType], 38.18);
+    if (record.independence === "مستقل") html += check(72.83, 41.20);
+    if (record.independence === "مشترك (المبنى)") html += check(39.74, 41.20) + check(34.63, 41.20);
+    if (record.independence === "مشترك (الإدارة)") html += check(39.74, 41.20) + check(31.45, 41.20);
+    html += overlay(record.directorName, 64.13, 46.88, 13.44);
+    html += overlay(record.jobTitle, 44.80, 46.88, 5.84);
+    html += overlay(record.mobile, 31.26, 44.63, 6.75);
+    html += overlay(record.civilId, 31.26, 49.13, 6.75);
+    html += overlay(record.directorExperience, 17.72, 46.88, 5.89);
+    html += overlay(record.currentSchoolExperience, 4.23, 46.88, 5.04);
+    html += overlay(record.performance1446, 64.13, 53.02, 13.44);
+    html += overlay(record.performance1447, 23.61, 53.02, 27.03);
+    const visitCells = {
+      planning: { left: 50.64, width: 26.94, checkX: 72.80 },
+      midyear: { left: 23.61, width: 27.03, checkX: 49.43 },
+      evaluation: { left: 4.23, width: 19.38, checkX: 22.45 }
+    };
     stages.forEach((stage) => {
       const visit = record.visits[stage.key];
-      html += overlay(visit.visitDay, visitX[stage.key], 50.6, 11.5);
-      html += overlay(visit.visitDate, visitX[stage.key], 54.0, 11.5);
-      if (visit.visitDate || Object.keys(visit.ratings || {}).length) html += check(visitX[stage.key] + 7.8, 57.1);
+      const cell = visitCells[stage.key];
+      html += overlay(visit.visitDay, cell.left, 56.31, cell.width);
+      html += overlay(visit.visitDate, cell.left, 59.87, cell.width);
+      if (visit.visitDate || Object.keys(visit.ratings || {}).length) html += check(cell.checkX, 64.91);
     });
-    html += overlay(record.studentsTotal, 57.6, 64.4, 4.5);
-    html += overlay(record.studentsAbsent, 49.2, 64.4, 3.5);
-    html += overlay(record.classesTotal, 37.7, 64.4, 5);
-    html += overlay(record.supervisorsTotal, 57.6, 74.3, 4.5);
-    html += overlay(record.supervisorsAbsent, 49.2, 74.3, 3.5);
-    html += overlay(record.adminsTotal, 37.7, 74.3, 4.5);
-    html += overlay(record.adminsAbsent, 28.7, 74.3, 3.5);
-    html += overlay(record.teachersTotal, 17.2, 74.3, 4.5);
-    html += overlay(record.teachersAbsent, 7.3, 74.3, 3.5);
-    const evalX = { "خارجي": 64.5, "ذاتي": 35.5, "لم يصدر لها تقرير": 13.5 };
-    if (evalX[record.schoolEvaluation]) html += check(evalX[record.schoolEvaluation], 81.0);
+    html += overlay(record.studentsTotal, 74.20, 68.87, 3.37);
+    html += overlay(record.studentsAbsent, 64.09, 68.87, 3.42);
+    html += overlay(record.classesTotal, 44.80, 68.87, 5.84);
+    html += overlay(record.supervisorsTotal, 74.20, 77.94, 3.37);
+    html += overlay(record.supervisorsAbsent, 64.09, 77.94, 3.42);
+    html += overlay(record.adminsTotal, 44.80, 77.94, 5.84);
+    html += overlay(record.adminsAbsent, 33.78, 77.94, 4.18);
+    html += overlay(record.teachersTotal, 15.25, 77.94, 5.89);
+    html += overlay(record.teachersAbsent, 4.23, 77.94, 4.04);
+    const evalX = { "خارجي": 72.28, "ذاتي": 42.71, "لم يصدر لها تقرير": 17.39 };
+    if (evalX[record.schoolEvaluation]) html += check(evalX[record.schoolEvaluation], 90.40);
     return html;
   }
 
   function performanceOverlays(record) {
     let html = "";
-    const ratingX = { "التميز": 63.2, "التقدم": 52.3, "الانطلاق": 42.6, "التهيئة": 36.6 };
-    [["schoolPerformance2025", 13.8], ["managementPerformance2025", 16.8], ["schoolPerformance2026", 25.3], ["managementPerformance2026", 28.3]].forEach(([key, top]) => { if (ratingX[record[key]]) html += check(ratingX[record[key]], top); });
-    html += overlay(record.nafisThird, 57.5, 43.5, 12);
-    html += overlay(record.nafisSixth, 57.5, 51.4, 12);
-    html += overlay(record.nafisMiddle, 57.5, 60.8, 12);
-    html += overlay(record.achievementScientificSchool, 28.5, 67.0, 10);
-    html += overlay(record.achievementScientificOffice, 8.0, 67.0, 10);
-    html += overlay(record.achievementTheoreticalSchool, 28.5, 70.8, 10);
-    html += overlay(record.achievementTheoreticalOffice, 8.0, 70.8, 10);
-    html += overlay(record.aptitudeScientificSchool, 28.5, 74.8, 10);
-    html += overlay(record.aptitudeScientificOffice, 8.0, 74.8, 10);
-    html += overlay(record.aptitudeTheoreticalSchool, 28.5, 78.6, 10);
-    html += overlay(record.aptitudeTheoreticalOffice, 8.0, 78.6, 10);
-    html += overlay(record.deputyAcademic, 57.5, 85.9, 11);
-    html += overlay(record.deputySchool, 37.5, 85.9, 11);
-    html += overlay(record.deputyStudents, 17.5, 85.9, 11);
+    const ratingX = { "التميز": 72.09, "التقدم": 58.81, "الانطلاق": 49.43, "التهيئة": 42.68 };
+    [["schoolPerformance2025", 15.38], ["managementPerformance2025", 18.40], ["schoolPerformance2026", 27.50], ["managementPerformance2026", 30.52]].forEach(([key, top]) => { if (ratingX[record[key]]) html += check(ratingX[record[key]], top); });
+    html += overlay(record.nafisThird, 50.64, 45.87, 26.94);
+    html += overlay(record.nafisSixth, 50.64, 53.19, 26.94);
+    html += overlay(record.nafisMiddle, 50.64, 59.23, 26.94);
+    html += overlay(record.achievementScientificSchool, 23.61, 69.81, 21.19);
+    html += overlay(record.achievementScientificOffice, 4.23, 69.81, 19.38);
+    html += overlay(record.achievementTheoreticalSchool, 23.61, 72.83, 21.19);
+    html += overlay(record.achievementTheoreticalOffice, 4.23, 72.83, 19.38);
+    html += overlay(record.aptitudeScientificSchool, 23.61, 75.86, 21.19);
+    html += overlay(record.aptitudeScientificOffice, 4.23, 75.86, 19.38);
+    html += overlay(record.aptitudeTheoreticalSchool, 23.61, 78.88, 21.19);
+    html += overlay(record.aptitudeTheoreticalOffice, 4.23, 78.88, 19.38);
+    html += overlay(record.deputyAcademic, 64.13, 84.96, 13.44);
+    html += overlay(record.deputySchool, 44.80, 84.96, 19.33);
+    html += overlay(record.deputyStudents, 23.61, 84.96, 21.19);
     return html;
   }
+
+  const criterionPrintPositions = {
+    1: { x: [7.17, 15.20, 23.18], y: [37.00, 39.42, 41.84, 46.61, 53.73] },
+    2: { x: [7.74, 16.58, 24.89], y: [72.67, 75.08, 77.50, 82.27, 89.72] },
+    3: { x: [7.60, 16.06, 24.04], y: [27.80, 30.22, 32.71, 37.47, 45.74] },
+    4: { x: [7.60, 16.06, 24.04], y: [70.11, 72.53, 75.02, 79.79, 87.24] },
+    5: { x: [7.60, 16.06, 24.04], y: [25.45, 27.87, 30.29, 35.06, 42.58] },
+    6: { x: [7.60, 16.06], y: [67.56, 71.12, 74.75, 79.52, 87.04] },
+    7: { x: [6.75, 14.35, 22.33], y: [26.53, 28.95, 31.36, 36.13, 43.25] },
+    8: { x: [7.60, 16.06, 24.04], y: [67.43, 69.85, 72.33, 77.10, 84.22] },
+    9: { x: [6.65, 14.20, 22.23], y: [25.52, 27.94, 30.36, 35.12, 43.25] },
+    10: { x: [7.60, 16.06, 24.04], y: [69.58, 71.99, 74.41, 79.18, 86.37] },
+    11: { x: [6.75, 14.35, 22.33], y: [25.39, 27.87, 30.29, 35.06, 42.18] },
+    12: { x: [7.60, 16.06, 24.04], y: [64.41, 66.82, 69.24, 74.01, 81.13] },
+    13: { x: [8.03, 16.86, 24.85], y: [28.41, 30.89, 33.31, 38.08, 45.20] },
+    14: { x: [6.75, 13.06, 20.29], y: [67.23, 69.71, 72.13, 76.90, 84.02] },
+    15: { x: [6.75, 14.35, 22.33], y: [28.48, 30.89, 33.31, 38.08, 45.20] },
+    16: { x: [6.75, 14.35, 22.33], y: [67.97, 70.45, 72.87, 77.64, 85.90] },
+    17: { x: [6.75, 13.06, 20.29], y: [31.83, 34.32, 36.74, 41.50, 48.62] },
+    18: { x: [6.75, 13.06, 20.29], y: [69.71, 72.13, 74.55, 79.31, 87.64] },
+    19: { x: [6.65, 13.78, 21.00], y: [34.79, 37.21, 39.62, 45.60, 53.86] }
+  };
 
   function criteriaMarkers(record, pageNumber) {
     const firstId = (pageNumber - 6) * 2 + 1;
     const ids = pageNumber === 15 ? [19] : [firstId, firstId + 1];
-    const x = { planning: 20.75, midyear: 13.55, evaluation: 6.45 };
-    const topRows = [33.15, 35.7, 38.1, 42.0, 48.05];
-    const bottomRows = [65.15, 67.65, 70.1, 74.15, 80.5];
+    const stageIndex = { evaluation: 0, midyear: 1, planning: 2 };
     let html = "";
-    ids.forEach((id, index) => {
+    ids.forEach((id) => {
+      const position = criterionPrintPositions[id];
       stages.forEach((stage) => {
         const rating = Number(record.visits[stage.key].ratings?.[id] || 0);
-        if (rating) html += check(x[stage.key], (index === 0 ? topRows : bottomRows)[rating - 1]);
+        const x = position?.x[stageIndex[stage.key]];
+        const y = position?.y[rating - 1];
+        if (rating && Number.isFinite(x) && Number.isFinite(y)) html += check(x, y);
       });
     });
     return html;
@@ -611,7 +640,8 @@
 
   function backgroundPage(sourcePage, outputPage, overlays = "") {
     const source = String(sourcePage).padStart(2, "0");
-    return `<section class="print-page background-print-page"><img class="page-background" src="assets/print-pages/page-${source}.png" alt="">${overlays}<span class="corrected-page-number">${outputPage}</span></section>`;
+    const pageNumber = outputPage == null ? "" : `<span class="corrected-page-number">${outputPage}</span>`;
+    return `<section class="print-page background-print-page"><span class="print-flow-anchor" aria-hidden="true"></span><img class="page-background" src="assets/print-pages/page-${source}.png" alt="">${overlays}${pageNumber}</section>`;
   }
 
   function buildPrint(record) {
@@ -620,7 +650,7 @@
     root.id = "printRoot";
     root.className = "print-root";
     const pages = [];
-    pages.push(backgroundPage(1, 1));
+    pages.push(backgroundPage(1, null));
     pages.push(customSummary(record));
     pages.push(backgroundPage(4, 3, generalOverlays(record)));
     pages.push(backgroundPage(5, 4, performanceOverlays(record)));
@@ -793,5 +823,5 @@
 
   renderDashboard();
   registerWebMcpTools();
-  if ("serviceWorker" in navigator) navigator.serviceWorker.register("service-worker.js").catch(() => {});
+  if ("serviceWorker" in navigator) navigator.serviceWorker.register("service-worker.js?v=15").catch(() => {});
 })();

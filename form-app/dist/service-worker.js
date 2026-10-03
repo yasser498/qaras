@@ -1,4 +1,4 @@
-const CACHE = "qaras-visit-v9";
+const CACHE = "qaras-visit-v15";
 const PRINT_PAGES = Array.from({ length: 17 }, (_, index) => `assets/print-pages/page-${String(index + 1).padStart(2, "0")}.png`);
 const CORE = ["./", "index.html", "styles.css", "app.js", "criteria-data.js", "manifest.webmanifest", "favicon.svg", "assets/ministry-logo.jpeg", "assets/footer-bar.png", ...PRINT_PAGES];
 self.addEventListener("install", (event) => event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(CORE))));

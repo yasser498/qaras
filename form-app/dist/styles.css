@@ -305,8 +305,9 @@ button:disabled { opacity: .45; cursor: not-allowed; box-shadow: none; }
 .previewing .print-check { position: absolute; z-index: 3; transform: translate(-50%, -50%); color: #111; font: 900 clamp(5px, 1vw, 11px)/1 Arial, sans-serif; }
 .previewing .goal-overlay { text-align: right; font-size: clamp(3px, .62vw, 7px); }
 .previewing .name-overlay { font-weight: 800; text-align: right; }
+.previewing .masked-overlay { background: white; }
 .previewing .print-signature { position: absolute; z-index: 3; object-fit: contain; object-position: right center; mix-blend-mode: multiply; }
-.previewing .corrected-page-number { position: absolute; z-index: 4; left: 48%; bottom: 1.4%; width: 4%; height: 2.2%; display: grid; place-items: center; color: #111; background: white; font-size: clamp(4px, .72vw, 8px); }
+.previewing .corrected-page-number { position: absolute; z-index: 4; left: 62.5%; bottom: 1.25%; width: 3%; height: 2.4%; display: grid; place-items: center; color: #111; background: white; font-size: clamp(4px, .72vw, 8px); }
 .previewing .summary-print-page { padding: 3.7% 4% 3.3%; direction: rtl; font-family: Arial, Tahoma, sans-serif; }
 .previewing .print-letterhead { display: flex; justify-content: space-between; align-items: start; min-height: 10%; font-size: clamp(4px, .8vw, 9px); line-height: 1.6; }
 .previewing .print-letterhead img { width: 9%; order: 2; }
@@ -397,39 +398,42 @@ button:disabled { opacity: .45; cursor: not-allowed; box-shadow: none; }
   html, body { width: 297mm; height: auto; background: white !important; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
   .app-shell, .backup-dialog, .print-preview-bar { display: none !important; }
   .print-root { display: block !important; width: 297mm; margin: 0; }
-  .print-page { position: relative; width: 297mm; height: 210mm; margin: 0; overflow: hidden; break-after: page; page-break-after: always; background: white; }
+  .print-page { position: relative; width: 297mm; height: 210mm; margin: 0; overflow: hidden; break-inside: avoid; page-break-inside: avoid; break-after: page; page-break-after: always; background: white; }
   .print-page:last-child { break-after: auto; page-break-after: auto; }
   .previewing .print-root { display: block !important; width: 297mm; max-width: none; gap: 0; margin: 0; padding: 0; }
-  .previewing .print-page { width: 297mm; height: 210mm; aspect-ratio: auto; margin: 0; box-shadow: none; break-after: page; page-break-after: always; }
+  .previewing .print-page { width: 297mm; height: 210mm; aspect-ratio: auto; margin: 0; box-shadow: none; break-inside: avoid; page-break-inside: avoid; break-after: page; page-break-after: always; }
   .previewing .print-page:last-child { break-after: auto; page-break-after: auto; }
-  .page-background { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: fill; }
-  .print-overlay { position: absolute; z-index: 2; display: block; color: #111; text-align: center; font-family: Arial, Tahoma, sans-serif; font-size: 7.2pt; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: clip; }
-  .print-check { position: absolute; z-index: 3; transform: translate(-50%, -50%); color: #111; font-family: Arial, sans-serif; font-size: 11pt; font-weight: 900; line-height: 1; }
-  .goal-overlay { font-size: 7pt; text-align: right; padding-inline-end: 1.2%; }
-  .name-overlay { font-size: 7.5pt; font-weight: 700; }
-  .adjacent-value { text-align: right; padding-inline-end: .8%; }
-  .print-signature { position: absolute; z-index: 3; object-fit: contain; object-position: right center; mix-blend-mode: multiply; }
-  .corrected-page-number { position: absolute; z-index: 4; left: 48%; bottom: 1.4%; width: 4%; height: 2.2%; display: grid; place-items: center; color: #111; background: white; font: 8pt Arial, sans-serif; }
-  .summary-print-page { padding: 11mm 12mm 10mm; font-family: Arial, Tahoma, sans-serif; direction: rtl; }
-  .print-letterhead { display: flex; justify-content: space-between; align-items: start; min-height: 20mm; font-size: 9pt; line-height: 1.7; }
-  .print-letterhead img { width: 26mm; height: auto; order: 2; }
+  .print-page + .print-page, .previewing .print-page + .print-page { break-before: page; page-break-before: always; }
+  .print-flow-anchor { display: block; width: 1px; height: 100%; }
+  .page-background, body.previewing .page-background { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: fill; }
+  .print-overlay, body.previewing .print-overlay { position: absolute; z-index: 2; display: block; color: #111; text-align: center; direction: rtl; font-family: Arial, Tahoma, sans-serif; font-size: 7.2pt; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: clip; }
+  .print-check, body.previewing .print-check { position: absolute; z-index: 3; transform: translate(-50%, -50%); color: #111; font-family: Arial, sans-serif; font-size: 11pt; font-weight: 900; line-height: 1; }
+  .goal-overlay, body.previewing .goal-overlay { font-size: 7pt; text-align: right; padding-inline-end: 1.2%; }
+  .name-overlay, body.previewing .name-overlay { font-size: 7.5pt; font-weight: 700; text-align: right; }
+  .masked-overlay, body.previewing .masked-overlay { background: white; }
+  .adjacent-value, body.previewing .adjacent-value { text-align: right; padding-inline-end: .8%; }
+  .print-signature, body.previewing .print-signature { position: absolute; z-index: 3; object-fit: contain; object-position: right center; mix-blend-mode: multiply; }
+  .corrected-page-number, body.previewing .corrected-page-number { position: absolute; z-index: 4; left: 62.5%; bottom: 1.25%; width: 3%; height: 2.4%; display: grid; place-items: center; color: #111; background: white; font: 8pt Arial, sans-serif; }
+  .summary-print-page, body.previewing .summary-print-page { padding: 11mm 12mm 10mm; font-family: Arial, Tahoma, sans-serif; direction: rtl; }
+  .print-letterhead, body.previewing .print-letterhead { display: flex; justify-content: space-between; align-items: start; min-height: 20mm; font-size: 9pt; line-height: 1.7; }
+  .print-letterhead img, body.previewing .print-letterhead img { width: 26mm; height: auto; order: 2; }
   .print-letterhead div { text-align: right; }
-  .summary-print-page > h2 { margin: 0 0 4mm; color: #c8211f; text-align: center; font-size: 12pt; }
-  .summary-layout { display: grid; grid-template-columns: 1fr 45mm; align-items: start; gap: 5mm; direction: rtl; }
-  .official-summary, .scale-table { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 6.8pt; }
+  .summary-print-page > h2, body.previewing .summary-print-page > h2 { margin: 0 0 4mm; color: #c8211f; text-align: center; font-size: 12pt; }
+  .summary-layout, body.previewing .summary-layout { display: grid; grid-template-columns: 1fr 45mm; align-items: start; gap: 5mm; direction: rtl; }
+  .official-summary, .scale-table, body.previewing .official-summary, body.previewing .scale-table { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 6.8pt; }
   .official-summary th, .official-summary td { border: .25mm solid #6fd67a; padding: .75mm 1mm; text-align: center; }
   .official-summary th { background: #d9f2d1; font-weight: 800; }
   .official-summary th:nth-child(1) { width: 8mm; }
   .official-summary th:nth-child(2) { width: 83mm; }
   .official-summary th:nth-child(3) { width: 17mm; }
   .official-summary td:nth-child(2) { text-align: right; font-weight: 600; }
-  .official-summary tbody tr { height: 6.1mm; }
+  .official-summary tbody tr, body.previewing .official-summary tbody tr { height: 6.1mm; }
   .official-summary .total-row { height: 7mm; font-weight: 900; }
   .scale-table { border: .25mm solid #333; font-size: 6.7pt; }
   .scale-table th, .scale-table td { border: .25mm solid #333; padding: 1.2mm .7mm; text-align: center; }
   .scale-table th { background: #d9f2d1; }
-  .print-footer-bar { position: absolute; left: 0; bottom: 0; width: 58%; height: 5mm; object-fit: fill; }
-  .custom-page-number { position: absolute; left: 49%; bottom: 2mm; font-size: 8pt; }
+  .print-footer-bar, body.previewing .print-footer-bar { position: absolute; left: 0; bottom: 0; width: 58%; height: 5mm; object-fit: fill; }
+  .custom-page-number, body.previewing .custom-page-number { position: absolute; left: 49%; bottom: 2mm; font-size: 8pt; }
 }
 
 @media (prefers-reduced-motion: reduce) {
